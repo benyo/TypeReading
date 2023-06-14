@@ -28,13 +28,13 @@ export interface AggTrade {
 export function extractPriceFromWebSocketMessage(
   webSocketMessage: WebSocketMessage
 ): string {
-  return R.prop('q', parseJsonFromWsMsj(webSocketMessage));
+  return R.prop('p', parseJsonFromWsMsj(webSocketMessage));
 }
 
 export function extractQtyFromWebSocketMessage(
   webSocketMessage: WebSocketMessage
 ): string {
-  return R.path(['data', 'q'], webSocketMessage);
+  return R.prop('q', parseJsonFromWsMsj(webSocketMessage));
 }
 
 export function isPriceExistFromWebSocketMessage(
@@ -59,35 +59,35 @@ export function parseJsonFromWsMsj(webSocketMessage: WebSocketMessage) {
 }
 
 function App(): any {
-  // const obj = useRef<TypeTradeModel>({});
+  const obj = useRef<TypeTradeModel>({});
 
-  // const { lastMessage } = useWebSocket(
-  //   'wss://fstream.binance.com/ws/tlmusdt@aggTrade'
-  // );
+  const { lastMessage } = useWebSocket(
+    'wss://fstream.binance.com/ws/tlmusdt@aggTrade'
+  );
   // if (lastMessage) {
   //   console.log(lastMessage.data);
   // }
 
-  // useEffect(() => {
-  //   if (lastMessage && isPriceExistFromWebSocketMessage(obj, lastMessage)) {
-  //     const price = extractPriceFromWebSocketMessage(lastMessage);
-  //     const qty = extractQtyFromWebSocketMessage(lastMessage);
-  //     const listQtyByPrice = getListQtyByPrice(obj, price);
-  //     const lastQty = R.last(listQtyByPrice);
-  //     const isGreaterThanQtyOfWebsocketMessage = R.gt(qty, lastQty);
-  //     if (isGreaterThanQtyOfWebsocketMessage) {
-  //       const newListQtyByPrice = R.append(listQtyByPrice, qty);
-  //       const l = R.lensProp(price);
-  //       obj.current = R.set(l, newListQtyByPrice, obj.current);
-  //     }
-  //   } else if (lastMessage) {
-  //     const price = extractPriceFromWebSocketMessage(lastMessage);
-  //     console.log(price);
-  //     const qty = extractQtyFromWebSocketMessage(lastMessage);
-  //     obj.current = R.set(R.lensProp(price), [qty], obj.current);
-  //   }
-  //   console.log(obj.current);
-  // });
+  useEffect(() => {
+    if (lastMessage && isPriceExistFromWebSocketMessage(obj, lastMessage)) {
+      const price = extractPriceFromWebSocketMessage(lastMessage);
+      const qty = extractQtyFromWebSocketMessage(lastMessage);
+      const listQtyByPrice = getListQtyByPrice(obj, price);
+      const lastQty = R.last(listQtyByPrice);
+      const isGreaterThanQtyOfWebsocketMessage = R.gt(qty, lastQty);
+      if (isGreaterThanQtyOfWebsocketMessage) {
+        const newListQtyByPrice = R.append(listQtyByPrice, qty);
+        const l = R.lensProp(price);
+        obj.current = R.set(l, newListQtyByPrice, obj.current);
+      }
+    } else if (lastMessage) {
+      const price = extractPriceFromWebSocketMessage(lastMessage);
+      console.log(price);
+      const qty = extractQtyFromWebSocketMessage(lastMessage);
+      obj.current = R.set(R.lensProp(price), [qty], obj.current);
+    }
+    console.log(obj.current);
+  });
 
   return (
     <>
