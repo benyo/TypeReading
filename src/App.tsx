@@ -72,7 +72,10 @@ function App(): any {
       const qty = extractQtyFromWsMsg(lastMessage);
       const listQtyByPrice = getListQtyByPrice(obj, price);
       const lastQty = R.last(listQtyByPrice);
-      const isGreaterThanQtyOfWebsocketMessage = R.gt(qty, lastQty);
+      const isGreaterThanQtyOfWebsocketMessage = R.gt(
+        Number(qty),
+        Number(lastQty)
+      );
       if (isGreaterThanQtyOfWebsocketMessage) {
         const newListQtyByPrice = R.append(qty, listQtyByPrice);
         obj.current = R.set(R.lensProp(price), newListQtyByPrice, obj.current);
