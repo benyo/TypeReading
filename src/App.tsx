@@ -55,6 +55,31 @@ export function getListQtyByPrice(
 export function parseJsonFromWsMsg(webSocketMessage: WebSocketMessage) {
   return R.pipe(R.prop('data'), JSON.parse)(webSocketMessage);
 }
+export function getListPriceWithQtyBiggerApp(
+  obj: React.MutableRefObject<TypeTradeModel>,
+  wsMsg: WebSocketMessage | null
+) {
+  let result = {};
+  if (wsMsg && isPriceExistFromWsMsg(obj, wsMsg)) {
+    const price = extractPriceFromWsMsg(wsMsg);
+    const qty = extractQtyFromWsMsg(wsMsg);
+    const listQtyByPrice = getListQtyByPrice(obj, price);
+    const lastQty = R.last(listQtyByPrice);
+    const isGreaterThanQtyOfWebsocketMessage = R.gt(
+      Number(qty),
+      Number(lastQty)
+    );
+    if (isGreaterThanQtyOfWebsocketMessage) {
+      const newListQtyByPrice = R.append(qty, listQtyByPrice);
+      result = R.set(R.lensProp(price), newListQtyByPrice, obj.current);
+    }
+  } else if (wsMsg) {
+    const price = extractPriceFromWsMsg(wsMsg);
+    const qty = extractQtyFromWsMsg(wsMsg);
+    result = R.set(R.lensProp(price), [qty], obj.current);
+  }
+  return result;
+}
 
 function App(): any {
   const obj = useRef<TypeTradeModel>({});
@@ -62,29 +87,9 @@ function App(): any {
   const { lastMessage } = useWebSocket(
     'wss://fstream.binance.com/ws/tlmusdt@aggTrade'
   );
-  // if (lastMessage) {
-  //   console.log(lastMessage.data);
-  // }
 
   useEffect(() => {
-    if (lastMessage && isPriceExistFromWsMsg(obj, lastMessage)) {
-      const price = extractPriceFromWsMsg(lastMessage);
-      const qty = extractQtyFromWsMsg(lastMessage);
-      const listQtyByPrice = getListQtyByPrice(obj, price);
-      const lastQty = R.last(listQtyByPrice);
-      const isGreaterThanQtyOfWebsocketMessage = R.gt(
-        Number(qty),
-        Number(lastQty)
-      );
-      if (isGreaterThanQtyOfWebsocketMessage) {
-        const newListQtyByPrice = R.append(qty, listQtyByPrice);
-        obj.current = R.set(R.lensProp(price), newListQtyByPrice, obj.current);
-      }
-    } else if (lastMessage) {
-      const price = extractPriceFromWsMsg(lastMessage);
-      const qty = extractQtyFromWsMsg(lastMessage);
-      obj.current = R.set(R.lensProp(price), [qty], obj.current);
-    }
+    obj.current = getListPriceWithQtyBiggerApp(obj, lastMessage);
     console.log(obj.current);
   });
 
