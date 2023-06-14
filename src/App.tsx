@@ -28,7 +28,7 @@ export interface AggTrade {
 export function extractPriceFromWebSocketMessage(
   webSocketMessage: WebSocketMessage
 ): string {
-  return R.path(['data', 'p'], webSocketMessage);
+  return R.prop('q', parseJsonFromWsMsj(webSocketMessage));
 }
 
 export function extractQtyFromWebSocketMessage(
@@ -52,6 +52,10 @@ export function getListQtyByPrice(
   price: string
 ): string[] {
   return R.path(obj, ['current', price]);
+}
+
+export function parseJsonFromWsMsj(webSocketMessage: WebSocketMessage) {
+  return R.pipe(R.prop('data'), JSON.parse)(webSocketMessage);
 }
 
 function App(): any {
