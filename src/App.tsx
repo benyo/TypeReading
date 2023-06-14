@@ -42,14 +42,14 @@ export function isPriceExistFromWsMsg(
   webSocketMessage: WebSocketMessage
 ): boolean {
   const isPriceExist = R.has(extractPriceFromWsMsg(webSocketMessage));
-  return isPriceExist(R.prop(obj, 'current'));
+  return isPriceExist(R.prop('current', obj));
 }
 
 export function getListQtyByPrice(
   obj: React.MutableRefObject<TypeTradeModel>,
   price: string
 ): string[] {
-  return R.path(obj, ['current', price]);
+  return R.path(['current', price], obj);
 }
 
 export function parseJsonFromWsMsg(webSocketMessage: WebSocketMessage) {
