@@ -50,7 +50,7 @@ export function getListPriceWithQtyBiggerApp(
   obj: React.MutableRefObject<TypeTradeModel>,
   aggTradeModel: AggTradeModel | null
 ) {
-  let result = {};
+  let result = obj.current || {};
   if (aggTradeModel && isPriceExistFromWsMsg(obj, aggTradeModel)) {
     const price = extractPriceFromWsMsg(aggTradeModel);
     const qty = extractQtyFromWsMsg(aggTradeModel);
