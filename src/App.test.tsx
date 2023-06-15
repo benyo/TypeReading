@@ -32,6 +32,7 @@ describe('Simple working test', () => {
 
     expect(result).toBeTruthy();
   });
+
   it('isPriceExistFromWsMsg', () => {
     const obj: any = { current: { '1.23': ['10'] } };
 
