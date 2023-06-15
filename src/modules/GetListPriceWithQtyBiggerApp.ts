@@ -27,12 +27,20 @@ export function getListQtyByPrice(
 export function isPriceExist(price: string) {
   return R.has(price);
 }
+
 export function isGreaterThanQtyOfwsMsg(price: string, qty: string) {
   return (currentObj: any) =>
     R.gt(
       Number(qty),
       Number(R.last(R.defaultTo([], R.prop(price, currentObj))))
     );
+}
+
+export function getListOfPriceAndQuantities(currentObj: any) {
+  return R.pipe(
+    R.toPairs,
+    R.map(([price, quantities]) => ({ price, quantities }))
+  )(currentObj);
 }
 
 export function getListPriceWithQtyBiggerApp(
@@ -54,7 +62,7 @@ export function getListPriceWithQtyBiggerApp(
         R.set(R.lensProp(price), R.append(qty, listQtyByPrice)),
         R.identity
       ),
-      R.set(R.lensProp(price), [qty])
+      R.set(R.lensProp<any>(price), [qty])
     )
   )(currentObj);
 }

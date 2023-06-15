@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   getListQtyByPrice,
+  getListOfPriceAndQuantities,
   getListPriceWithQtyBiggerApp,
 } from './modules/GetListPriceWithQtyBiggerApp';
 
@@ -11,6 +12,14 @@ describe('Simple working test', () => {
     const result = getListQtyByPrice('1.23', obj);
 
     expect(result).toEqual(['10']);
+  });
+
+  it('getListOfPriceAndQuantities', () => {
+    const obj: any = { '1.23': ['10'] };
+
+    const result = getListOfPriceAndQuantities(obj);
+
+    expect(result).toEqual([{ price: '1.23', quantities: ['10'] }]);
   });
 
   it('getListPriceWithQtyBiggerApp', () => {

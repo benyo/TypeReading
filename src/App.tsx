@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react';
+import * as R from 'ramda';
 import {
+  getListOfPriceAndQuantities,
   getListPriceWithQtyBiggerApp,
   TypeTradeModel,
 } from './modules/GetListPriceWithQtyBiggerApp';
@@ -13,7 +15,7 @@ function App(): any {
   const obj = useRef<TypeTradeModel>({});
 
   const { lastJsonMessage } = useWebSocket(
-    'wss://fstream.binance.com/ws/tlmusdt@aggTrade'
+    'wss://fstream.binance.com/ws/linausdt@aggTrade'
   );
 
   useEffect(() => {
@@ -23,7 +25,18 @@ function App(): any {
 
   return (
     <>
-      <div>Hola</div>
+      <div>
+        <h1>Type Reading</h1>
+        {getListOfPriceAndQuantities(obj.current).map((item: any) => {
+          return (
+            <div>
+              <div>
+                {item.price} {R.join('-', R.take(5, item.quantities))}{' '}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }
