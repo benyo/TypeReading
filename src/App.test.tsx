@@ -1,42 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import {
-  extractPriceFromWsMsg,
-  extractQtyFromWsMsg,
-  isPriceExistFromWsMsg,
   getListQtyByPrice,
   getListPriceWithQtyBiggerApp,
-} from './App';
+} from './modules/GetListPriceWithQtyBiggerApp';
 
 describe('Simple working test', () => {
-  it('extractPriceFromWsMsg', () => {
-    const wsMessage: any = { p: '1.23' };
-
-    const result = extractPriceFromWsMsg(wsMessage);
-
-    expect(result).equal('1.23');
-  });
-
-  it('extractQtyFromWsMsg', () => {
-    const wsMessage: any = { q: '1.23' };
-
-    const result = extractQtyFromWsMsg(wsMessage);
-
-    expect(result).equal('1.23');
-  });
-
-  it('isPriceExistFromWsMsg', () => {
-    const obj: any = { current: { '1.23': [] } };
-    const wsMessage: any = { p: '1.23' };
-
-    const result = isPriceExistFromWsMsg(obj, wsMessage);
-
-    expect(result).toBeTruthy();
-  });
-
   it('isPriceExistFromWsMsg', () => {
     const obj: any = { current: { '1.23': ['10'] } };
 
-    const result = getListQtyByPrice(obj, '1.23');
+    const result = getListQtyByPrice('1.23', obj);
 
     expect(result).toEqual(['10']);
   });
