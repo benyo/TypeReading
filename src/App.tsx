@@ -22,12 +22,13 @@ function App(): any {
     obj.current = getListPriceWithQtyBiggerApp(obj, lastJsonMessage);
     console.log(obj.current);
   });
+  const listOfPriceAndQuantities = getListOfPriceAndQuantities(obj.current);
 
   return (
     <>
       <div>
         <h1>Type Reading</h1>
-        {getListOfPriceAndQuantities(obj.current).map((item: any) => {
+        {listOfPriceAndQuantities.map((item: any) => {
           return (
             <div>
               <div>
