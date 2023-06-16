@@ -7,7 +7,6 @@ import {
 } from './modules/GetListPriceWithQtyBiggerApp';
 // import dayjs from 'dayjs';
 import useWebSocket from 'react-use-websocket';
-import './App.css';
 
 // const FORMAT_DATE = 'DD/MM/YYYY HH:mm:ss';
 
@@ -20,7 +19,7 @@ function App(): any {
 
   useEffect(() => {
     ask.current = getListPriceWithQtyBiggerApp(ask, lastJsonMessage);
-    console.log(ask.current);
+    console.log(lastJsonMessage);
   });
   const listOfPriceAndQuantities = getListOfPriceAndQuantities(ask.current);
 
