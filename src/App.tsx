@@ -8,6 +8,7 @@ import {
 // import dayjs from 'dayjs';
 import useWebSocket from 'react-use-websocket';
 import Example from './components/example/Example';
+import beams from './assets/beams.jpeg';
 
 // const FORMAT_DATE = 'DD/MM/YYYY HH:mm:ss';
 
@@ -27,18 +28,46 @@ function App(): any {
   return (
     <>
       <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-        <div className="container">
-          <Example />
-          <h1 className="text-3xl font-bold">Type Reading</h1>
-          {listOfPriceAndQuantities.map((item: any) => {
-            return (
-              <div>
-                <div>
-                  {item.price} {R.join('-', R.take(5, item.quantities))}{' '}
-                </div>
-              </div>
-            );
-          })}
+        <img
+          src={beams}
+          alt=""
+          className="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
+          width="1308"
+        />
+        <div className="relative mb-8 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">
+            Type Reading
+          </h1>
+        </div>
+        <div className="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 md:mx-auto md:max-w-lg md:rounded-lg sm:px-10">
+          <div className="container mx-auto">
+            <table className="bg-white">
+              <thead>
+                <tr>
+                  <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
+                    Precio
+                  </th>
+                  <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
+                    Cantidad
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {listOfPriceAndQuantities.map((item: any) => {
+                  return (
+                    <tr>
+                      <td className="py-4 px-6 border-b border-gray-300">
+                        {item.price}
+                      </td>
+                      <td className="py-4 px-6 border-b border-gray-300">
+                        {R.last(item.quantities)}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </>
