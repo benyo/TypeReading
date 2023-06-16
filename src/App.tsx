@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import * as R from 'ramda';
 import {
   getListOfPriceAndQuantities,
   getListPriceWithQtyBiggerApp,
@@ -8,6 +7,7 @@ import {
 // import dayjs from 'dayjs';
 import useWebSocket from 'react-use-websocket';
 import beams from './assets/beams.jpeg';
+import { ShowListTapePanel } from './components/ShowListTapePanel';
 
 // const FORMAT_DATE = 'DD/MM/YYYY HH:mm:ss';
 
@@ -46,70 +46,18 @@ function App(): any {
         <div className="relative md:mx-auto md:max-w-lg sm:px-10">
           <div className="flex">
             <div className="flex-auto pr-4">
-              <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">
-                <h1 className="uppercase font-bold text-center text-green-700">
-                  Compras
-                </h1>
-                <table>
-                  <thead>
-                    <tr>
-                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
-                        Precio
-                      </th>
-                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
-                        Cantidad
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listBidOfPriceAndQuantities.map((item: any) => {
-                      return (
-                        <tr>
-                          <td className="py-4 px-6 border-b border-gray-300">
-                            {item.price}
-                          </td>
-                          <td className="py-4 px-6 border-b border-gray-300">
-                            {R.last(item.quantities)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <ShowListTapePanel
+                listItems={listBidOfPriceAndQuantities}
+                title="Compras"
+                colorTitle="text-green-700"
+              />
             </div>
             <div className="flex-auto pl-4">
-              <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">
-                <h1 className="uppercase font-bold text-center text-red-700">
-                  Venta
-                </h1>
-                <table className="bg-white">
-                  <thead>
-                    <tr>
-                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
-                        Precio
-                      </th>
-                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
-                        Cantidad
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listAskOfPriceAndQuantities.map((item: any) => {
-                      return (
-                        <tr>
-                          <td className="py-4 px-6 border-b border-gray-300">
-                            {item.price}
-                          </td>
-                          <td className="py-4 px-6 border-b border-gray-300">
-                            {R.last(item.quantities)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <ShowListTapePanel
+                listItems={listAskOfPriceAndQuantities}
+                title="Ventas"
+                colorTitle="text-red-700"
+              />
             </div>
           </div>
         </div>
