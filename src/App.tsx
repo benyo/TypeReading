@@ -48,14 +48,14 @@ function App(): any {
             <div className="flex-auto pr-4">
               <ShowListTapePanel
                 listItems={listBidOfPriceAndQuantities}
-                title="Compras"
+                title="Bid"
                 colorTitle="text-green-700"
               />
             </div>
             <div className="flex-auto pl-4">
               <ShowListTapePanel
                 listItems={listAskOfPriceAndQuantities}
-                title="Ventas"
+                title="Ask"
                 colorTitle="text-red-700"
               />
             </div>
