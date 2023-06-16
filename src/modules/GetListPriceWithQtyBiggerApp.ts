@@ -44,12 +44,12 @@ export function getListOfPriceAndQuantities(currentObj: any) {
 }
 export function abbreviateNumber(number: number) {
   const abbreviations = [
-    { threshold: 1e9, symbol: 'B' },
-    { threshold: 1e6, symbol: 'M' },
     { threshold: 1e3, symbol: 'k' },
+    { threshold: 1e6, symbol: 'M' },
+    { threshold: 1e9, symbol: 'B' },
   ];
   return R.pipe(
-    R.findLast<any>(R.propSatisfies(R.gte(R.__, number), 'threshold')),
+    R.findLast<any>(R.propSatisfies(R.gte(number), 'threshold')),
     R.ifElse<any, any, any>(
       R.identity,
       ({ threshold, symbol }) => `${number / threshold}${symbol}`,

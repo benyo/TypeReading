@@ -22,7 +22,7 @@ function App(): any {
   useEffect(() => {
     if (lastJsonMessage && lastJsonMessage.m) {
       ask.current = getListPriceWithQtyBiggerApp(ask, lastJsonMessage);
-    } else {
+    } else if (lastJsonMessage) {
       bid.current = getListPriceWithQtyBiggerApp(bid, lastJsonMessage);
     }
   });

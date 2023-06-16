@@ -24,11 +24,43 @@ describe('test GetListPriceWithQtyBiggerApp', () => {
   });
 
   it('abbreviateNumber 150000 should be get 150k', () => {
-    const num = 1000;
+    const num = 150000;
 
     const result = abbreviateNumber(num);
 
-    expect(result).toEqual('1k');
+    expect(result).toEqual('150k');
+  });
+
+  it('abbreviateNumber 1500000 should be get 1.5M', () => {
+    const num = 1500000;
+
+    const result = abbreviateNumber(num);
+
+    expect(result).toEqual('1.5M');
+  });
+
+  it('abbreviateNumber 15300000 should be get 15.3M', () => {
+    const num = 15300000;
+
+    const result = abbreviateNumber(num);
+
+    expect(result).toEqual('15.3M');
+  });
+
+  it('abbreviateNumber 153000000 should be get 153M', () => {
+    const num = 153000000;
+
+    const result = abbreviateNumber(num);
+
+    expect(result).toEqual('153M');
+  });
+
+  it('abbreviateNumber 153000000 should be get 1.53B', () => {
+    const num = 1530000000;
+
+    const result = abbreviateNumber(num);
+
+    expect(result).toEqual('1.53B');
   });
 
   it('getListOfPriceAndQuantities', () => {
