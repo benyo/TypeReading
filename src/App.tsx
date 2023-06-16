@@ -13,16 +13,21 @@ import beams from './assets/beams.jpeg';
 
 function App(): any {
   const ask = useRef<TypeTradeModel>({});
+  const bid = useRef<TypeTradeModel>({});
 
   const { lastJsonMessage } = useWebSocket(
     'wss://fstream.binance.com/ws/linausdt@aggTrade'
   );
 
   useEffect(() => {
-    ask.current = getListPriceWithQtyBiggerApp(ask, lastJsonMessage);
-    console.log(lastJsonMessage);
+    if (lastJsonMessage && lastJsonMessage.m) {
+      ask.current = getListPriceWithQtyBiggerApp(ask, lastJsonMessage);
+    } else {
+      bid.current = getListPriceWithQtyBiggerApp(bid, lastJsonMessage);
+    }
   });
-  const listOfPriceAndQuantities = getListOfPriceAndQuantities(ask.current);
+  const listAskOfPriceAndQuantities = getListOfPriceAndQuantities(ask.current);
+  const listBidOfPriceAndQuantities = getListOfPriceAndQuantities(bid.current);
 
   return (
     <>
@@ -42,6 +47,9 @@ function App(): any {
           <div className="flex">
             <div className="flex-auto pr-4">
               <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">
+                <h1 className="uppercase font-bold text-center text-green-700">
+                  Compras
+                </h1>
                 <table>
                   <thead>
                     <tr>
@@ -54,7 +62,7 @@ function App(): any {
                     </tr>
                   </thead>
                   <tbody>
-                    {listOfPriceAndQuantities.map((item: any) => {
+                    {listBidOfPriceAndQuantities.map((item: any) => {
                       return (
                         <tr>
                           <td className="py-4 px-6 border-b border-gray-300">
@@ -72,6 +80,9 @@ function App(): any {
             </div>
             <div className="flex-auto pl-4">
               <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">
+                <h1 className="uppercase font-bold text-center text-red-700">
+                  Venta
+                </h1>
                 <table className="bg-white">
                   <thead>
                     <tr>
@@ -84,7 +95,7 @@ function App(): any {
                     </tr>
                   </thead>
                   <tbody>
-                    {listOfPriceAndQuantities.map((item: any) => {
+                    {listAskOfPriceAndQuantities.map((item: any) => {
                       return (
                         <tr>
                           <td className="py-4 px-6 border-b border-gray-300">
