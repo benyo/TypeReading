@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { abbreviateNumber } from '../modules/GetListPriceWithQtyBiggerApp';
+import { abbreviateNumber } from '../modules/AbbreviateNumber';
 export function ShowListTapePanel({ title, colorTitle, listItems }: any) {
   return (
     <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">

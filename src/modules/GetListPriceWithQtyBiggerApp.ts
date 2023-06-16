@@ -42,21 +42,6 @@ export function getListOfPriceAndQuantities(currentObj: any) {
     R.map(([price, quantities]) => ({ price, quantities }))
   )(currentObj);
 }
-export function abbreviateNumber(number: number) {
-  const abbreviations = [
-    { threshold: 1e3, symbol: 'k' },
-    { threshold: 1e6, symbol: 'M' },
-    { threshold: 1e9, symbol: 'B' },
-  ];
-  return R.pipe(
-    R.findLast<any>(R.propSatisfies(R.gte(number), 'threshold')),
-    R.ifElse<any, any, any>(
-      R.identity,
-      ({ threshold, symbol }) => `${number / threshold}${symbol}`,
-      R.toString
-    )
-  )(abbreviations);
-}
 
 export function getListPriceWithQtyBiggerApp(
   obj: React.MutableRefObject<TypeTradeModel>,
