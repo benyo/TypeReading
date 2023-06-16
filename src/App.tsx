@@ -12,22 +12,22 @@ import './App.css';
 // const FORMAT_DATE = 'DD/MM/YYYY HH:mm:ss';
 
 function App(): any {
-  const obj = useRef<TypeTradeModel>({});
+  const ask = useRef<TypeTradeModel>({});
 
   const { lastJsonMessage } = useWebSocket(
     'wss://fstream.binance.com/ws/linausdt@aggTrade'
   );
 
   useEffect(() => {
-    obj.current = getListPriceWithQtyBiggerApp(obj, lastJsonMessage);
-    console.log(obj.current);
+    ask.current = getListPriceWithQtyBiggerApp(ask, lastJsonMessage);
+    console.log(ask.current);
   });
-  const listOfPriceAndQuantities = getListOfPriceAndQuantities(obj.current);
+  const listOfPriceAndQuantities = getListOfPriceAndQuantities(ask.current);
 
   return (
     <>
       <div>
-        <h1>Type Reading</h1>
+        <h1 className="text-3xl font-bold underline">Type Reading</h1>
         {listOfPriceAndQuantities.map((item: any) => {
           return (
             <div>
