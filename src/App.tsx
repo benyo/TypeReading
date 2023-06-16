@@ -7,7 +7,6 @@ import {
 } from './modules/GetListPriceWithQtyBiggerApp';
 // import dayjs from 'dayjs';
 import useWebSocket from 'react-use-websocket';
-import Example from './components/example/Example';
 import beams from './assets/beams.jpeg';
 
 // const FORMAT_DATE = 'DD/MM/YYYY HH:mm:ss';
@@ -39,34 +38,68 @@ function App(): any {
             Type Reading
           </h1>
         </div>
-        <div className="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 md:mx-auto md:max-w-lg md:rounded-lg sm:px-10">
-          <div className="container mx-auto">
-            <table className="bg-white">
-              <thead>
-                <tr>
-                  <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
-                    Precio
-                  </th>
-                  <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
-                    Cantidad
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {listOfPriceAndQuantities.map((item: any) => {
-                  return (
+        <div className="relative md:mx-auto md:max-w-lg sm:px-10">
+          <div className="flex">
+            <div className="flex-auto pr-4">
+              <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">
+                <table>
+                  <thead>
                     <tr>
-                      <td className="py-4 px-6 border-b border-gray-300">
-                        {item.price}
-                      </td>
-                      <td className="py-4 px-6 border-b border-gray-300">
-                        {R.last(item.quantities)}
-                      </td>
+                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
+                        Precio
+                      </th>
+                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
+                        Cantidad
+                      </th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                    {listOfPriceAndQuantities.map((item: any) => {
+                      return (
+                        <tr>
+                          <td className="py-4 px-6 border-b border-gray-300">
+                            {item.price}
+                          </td>
+                          <td className="py-4 px-6 border-b border-gray-300">
+                            {R.last(item.quantities)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="flex-auto pl-4">
+              <div className="bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg">
+                <table className="bg-white">
+                  <thead>
+                    <tr>
+                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
+                        Precio
+                      </th>
+                      <th className="py-3 px-6 font-semibold uppercase border-b border-gray-300">
+                        Cantidad
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {listOfPriceAndQuantities.map((item: any) => {
+                      return (
+                        <tr>
+                          <td className="py-4 px-6 border-b border-gray-300">
+                            {item.price}
+                          </td>
+                          <td className="py-4 px-6 border-b border-gray-300">
+                            {R.last(item.quantities)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
