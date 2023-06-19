@@ -1,31 +1,13 @@
 import * as R from 'ramda';
+import { AggTradeModel, TypeTradeModel } from '../interfaces/common';
+import { isPriceExist } from './Helper';
 
-export interface TypeTradeModel {
-  [key: string]: string[];
-}
-
-export interface AggTradeModel {
-  e: string; // Event type
-  E: number; // Event time
-  s: string; // Symbol
-  a: number; // Aggregate trade ID
-  p: string; // Price
-  q: string; // Quantity
-  f: number; // First trade ID
-  l: number; // Last trade ID
-  T: number; // Trade time
-  m: boolean; // Is the buyer the market maker? true == SELL -> false == Buy
-}
 //console.log(dayjs(1686749517768).format(FORMAT_DATE));
 export function getListQtyByPrice(
   price: string,
   obj: React.MutableRefObject<TypeTradeModel>
 ): string[] {
   return R.defaultTo([], R.path(['current', price], obj));
-}
-
-export function isPriceExist(price: string) {
-  return R.has(price);
 }
 
 export function isGreaterThanQtyOfwsMsg(price: string, qty: string) {
