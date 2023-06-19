@@ -2,18 +2,21 @@ import { useRef, useEffect } from 'react';
 import {
   getListOfPriceAndQuantities,
   getListPriceWithQtyBiggerApp,
-  TypeTradeModel,
 } from './modules/GetListPriceWithQtyBiggerApp';
 // import dayjs from 'dayjs';
 import useWebSocket from 'react-use-websocket';
 import beams from './assets/beams.jpeg';
 import { ShowListTapePanel } from './components/ShowListTapePanel';
+import { TypeTradeCumulateModel, TypeTradeModel } from './interfaces/common';
+import { getListPriceWithCumulativeQty } from './modules/GetListPriceWithCumulativeQty';
 
 // const FORMAT_DATE = 'DD/MM/YYYY HH:mm:ss';
 
 function App(): any {
   const ask = useRef<TypeTradeModel>({});
   const bid = useRef<TypeTradeModel>({});
+  const askWithCumulateQty = useRef<TypeTradeCumulateModel>({});
+  const bidWithCumulateQty = useRef<TypeTradeCumulateModel>({});
 
   const { lastJsonMessage } = useWebSocket(
     'wss://fstream.binance.com/ws/linausdt@aggTrade'
@@ -22,12 +25,24 @@ function App(): any {
   useEffect(() => {
     if (lastJsonMessage && lastJsonMessage.m) {
       ask.current = getListPriceWithQtyBiggerApp(ask, lastJsonMessage);
+      askWithCumulateQty.current = getListPriceWithCumulativeQty(
+        askWithCumulateQty,
+        lastJsonMessage
+      );
     } else if (lastJsonMessage) {
       bid.current = getListPriceWithQtyBiggerApp(bid, lastJsonMessage);
+      bidWithCumulateQty.current = getListPriceWithCumulativeQty(
+        bidWithCumulateQty,
+        lastJsonMessage
+      );
     }
   });
   const listAskOfPriceAndQuantities = getListOfPriceAndQuantities(ask.current);
   const listBidOfPriceAndQuantities = getListOfPriceAndQuantities(bid.current);
+  const listAskOfPriceAndQuantitiesWithCumulateQty =
+    getListOfPriceAndQuantities(askWithCumulateQty.current);
+  const listBidOfPriceAndQuantitiesWithCumulateQty =
+    getListOfPriceAndQuantities(bidWithCumulateQty.current);
 
   return (
     <>
@@ -43,22 +58,37 @@ function App(): any {
             Type Reading
           </h1>
         </div>
-        <div className="relative md:mx-auto md:max-w-lg sm:px-10">
-          <div className="flex">
-            <div className="flex-auto pr-4">
-              <ShowListTapePanel
-                listItems={listBidOfPriceAndQuantities}
-                title="Bid"
-                colorTitle="text-green-700"
-              />
-            </div>
-            <div className="flex-auto pl-4">
-              <ShowListTapePanel
-                listItems={listAskOfPriceAndQuantities}
-                title="Ask"
-                colorTitle="text-red-700"
-              />
-            </div>
+
+        <div className="grid grid-cols-4 z-10 px-2 ">
+          <div className="px-4">
+            <ShowListTapePanel
+              listItems={listBidOfPriceAndQuantities}
+              title="Bid"
+              formatQty="true"
+              colorTitle="text-green-700"
+            />
+          </div>
+          <div className="px-4">
+            <ShowListTapePanel
+              listItems={listAskOfPriceAndQuantities}
+              title="Ask"
+              formatQty="true"
+              colorTitle="text-red-700"
+            />
+          </div>
+          <div className="px-4">
+            <ShowListTapePanel
+              listItems={listAskOfPriceAndQuantitiesWithCumulateQty}
+              title="Bid"
+              colorTitle="text-green-700"
+            />
+          </div>
+          <div className="px-4">
+            <ShowListTapePanel
+              listItems={listBidOfPriceAndQuantitiesWithCumulateQty}
+              title="Ask"
+              colorTitle="text-red-700"
+            />
           </div>
         </div>
       </div>
