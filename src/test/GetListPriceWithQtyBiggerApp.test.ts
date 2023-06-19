@@ -14,11 +14,11 @@ describe('test GetListPriceWithQtyBiggerApp', () => {
     expect(result).toBeTruthy();
   });
   it('getListOfPriceAndQuantities', () => {
-    const obj: any = { '1.23': ['10'] };
+    const obj: any = { '1.23': '10' };
 
     const result = getListOfPriceAndQuantities(obj);
 
-    expect(result).toEqual([{ price: '1.23', quantities: ['10'] }]);
+    expect(result).toEqual([{ price: '1.23', quantities: '10' }]);
   });
 
   it('getListPriceWithQtyBiggerApp', () => {
