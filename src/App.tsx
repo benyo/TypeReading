@@ -78,14 +78,14 @@ function App(): any {
           </div>
           <div className="px-4">
             <ShowListTapePanel
-              listItems={listAskOfPriceAndQuantitiesWithCumulateQty}
+              listItems={listBidOfPriceAndQuantitiesWithCumulateQty}
               title="Bid"
               colorTitle="text-green-700"
             />
           </div>
           <div className="px-4">
             <ShowListTapePanel
-              listItems={listBidOfPriceAndQuantitiesWithCumulateQty}
+              listItems={listAskOfPriceAndQuantitiesWithCumulateQty}
               title="Ask"
               colorTitle="text-red-700"
             />
